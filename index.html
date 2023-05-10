@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://daol.co.th/favicon.ico">
     <title>Subscription</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -17,66 +18,99 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-</head>
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        background: #ccc;
-    }
-
-    table,
-    input,
-    label,
-    h1,
-    h3,
-    p {
-        font-family: 'Roboto', sans-serif;
-    }
-
-    input#name {
-        border: none;
-        font-size: 48px;
-        text-align: center;
-        border-bottom: 1px solid #555;
-        text-transform: uppercase;
-        width: 100%;
-    }
-
-    input#name::placeholder {
-        text-transform: capitalize;
-    }
-
-    input#name:focus {
-        outline: none;
-    }
-
-    td.align-left {
-        text-align: left;
-    }
-
-    td.align-right {
-        text-align: right;
-    }
-
-    table.dataTable tfoot th.align-right {
-        text-align: right;
-    }
-
-    i.bx-loader-alt {
-        font-size: 48px;
-        ;
-    }
-
-    @media screen and (max-width: 992px) {
-        input#name {
-            font-size: 28px;
+    <style>
+        * {
+            box-sizing: border-box;
         }
-    }
-</style>
+
+        body {
+            background: #f3f7f9;
+        }
+
+        table,
+        input,
+        label,
+        h1,
+        h3,
+        p {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        input#name {
+            border: none;
+            font-size: 48px;
+            text-align: center;
+            border-bottom: 1px solid #e0e3e6;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        input#name::placeholder {
+            text-transform: capitalize;
+            color: #909596;
+        }
+
+        input#name:focus {
+            outline: none;
+        }
+
+        td.align-left {
+            text-align: left;
+        }
+
+        td.align-right {
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 10px;
+        }
+
+        table.dataTable thead {
+            background: #f9f9fb;
+        }
+
+        table.dataTable thead th {
+            border-bottom: 1px solid #e0e3e6;
+        }
+
+        table.dataTable thead th:nth-child(1) {
+            border-radius: 5px 0px 0px 0px;
+        }
+
+        table.dataTable thead th:nth-last-child(1) {
+            border-radius: 0px 5px 0px 0px;
+        }
+
+        table.dataTable tbody tr td {
+            border-bottom: 1px solid #f3f5f6;
+        }
+
+        table.dataTable tbody tr:hover {
+            background: #f9f9fb;
+        }
+
+        table.dataTable tfoot th {
+            border-top: 1px solid #e0e3e6;
+        }
+
+        table.dataTable tfoot th.align-right {
+            text-align: right;
+        }
+
+        i.bx-loader-alt {
+            font-size: 48px;
+            ;
+        }
+
+        @media screen and (max-width: 992px) {
+            input#name {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
 
 <body>
     <div
