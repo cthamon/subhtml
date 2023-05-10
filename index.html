@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<style>
+    td.align-left {
+        text-align: left;
+    }
+
+    td.align-right {
+        text-align: right;
+    }
+</style>
+
+<body>
+    <input id="name" type="text">
+    <div id="sheetscon">
+    </div>
+</body>
+
+</html>
+
+<script>
+    let url = 'https://brook-olivine-cactus.glitch.me/may';
+
+    $("input#name").on('keydown', function (e) {
+        if (e.key === "Enter") {
+            $.ajax({
+                type: "POST",
+                url,
+                data: { 'name': $("input#name").val() },
+                beforeSend: function () {
+                    $('#sheetscon').html('<p id="loading">Loading...</p>');
+                },
+                success: function (response) {
+                    $('p#loading').remove();
+
+                    const rows = response;
+
+                    const data = {
+                        'Investment & Wealth Consultant 1': {},
+                        'Investment & Wealth Consultant 2': {},
+                        'Investment & Wealth Consultant 3': {},
+                        'Investment & Wealth Consultant 4': {},
+                        'Investment & Wealth Consultant 5': {},
+                        'Investment Adviory 1': {},
+                        'Investment Adviory 2': {},
+                        'Investment Adviory 3': {},
+                        'Investment Adviory 4': {},
+                        'Investment Adviory 5': {},
+                        'Private Wealth 1': {},
+                        'Private Wealth 2': {},
+                        'Private Wealth 4': {},
+                        'Private Wealth 5': {},
+                        'Private Wealth 6': {},
+                        'Private Wealth 7': {},
+                        'Private Wealth 8': {},
+                        'Private Wealth 9': {},
+                        'Private Wealth 10': {},
+                        'Private Wealth 11': {}
+                    };
+
+                    rows.forEach(row => {
+                        const sub = row[7] ? +row[7].replace(/,/g, '') : 0;
+                        const wait = row[8] ? +row[8].replace(/,/g, '') : 0;
+
+                        if (data[row[2]]) {
+                            data[row[2]]['sub'] += +sub;
+                            data[row[2]]['wait'] += +wait;
+                        } else {
+                            data[row[2]] = {};
+                            data[row[2]]['sub'] = +sub;
+                            data[row[2]]['wait'] = +wait;
+                        }
+                    });
+
+                    const table = document.createElement('table');
+                    table.id = "sheets-table";
+
+                    $('#sheetscon').append('<p>' + rows[0][10] + '</p>');
+                    $('#sheetscon').append('<p>' + rows[1][10] + ' ' + rows[1][11] + '</p>');
+
+                    document.querySelector('#sheetscon').appendChild(table);
+
+                    const sheetstable = document.querySelector('#sheets-table');
+
+                    const tr = document.createElement('tr');
+                    const title = ['Team', 'Size', 'Wait'];
+                    title.forEach(item => {
+                        const th = document.createElement('th');
+                        th.innerText = item;
+                        tr.appendChild(th);
+                    });
+
+                    table.appendChild(tr);
+
+                    for (const property in data) {
+                        if (data[property]['sub'] === 0) {
+                            continue;
+                        }
+
+                        const tr = document.createElement('tr');
+
+                        const td1 = document.createElement('td');
+                        td1.innerText = property;
+                        tr.appendChild(td1);
+
+                        const td2 = document.createElement('td');
+                        td2.className = "align-right";
+                        td2.innerText = +data[property]['sub'] ? data[property]['sub'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+                        tr.appendChild(td2);
+
+                        const td3 = document.createElement('td');
+                        td3.className = "align-right";
+                        td3.innerText = +data[property]['wait'] ? data[property]['wait'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+                        tr.appendChild(td3);
+
+                        sheetstable.appendChild(tr);
+                    }
+
+                }
+            });
+        }
+    });
+</script>

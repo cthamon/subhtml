@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="sheetscon">
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    let url = 'https://brook-olivine-cactus.glitch.me/conn';
+    let req = new XMLHttpRequest();
+    req.responseType = 'json';
+    req.open('GET', url, true);
+    req.onload = function () {
+        // console.log(req.response);
+        const rows = req.response;
+        const data = {
+            'Investment & Wealth Consultant 1': 0,
+            'Investment & Wealth Consultant 2': 0,
+            'Investment & Wealth Consultant 3': 0,
+            'Investment & Wealth Consultant 4': 0,
+            'Investment & Wealth Consultant 5': 0,
+            'Investment Adviory 1': 0,
+            'Investment Adviory 2': 0,
+            'Investment Adviory 3': 0,
+            'Investment Adviory 4': 0,
+            'Investment Adviory 5': 0,
+            'Private Wealth 1': 0,
+            'Private Wealth 2': 0,
+            'Private Wealth 4': 0,
+            'Private Wealth 5': 0,
+            'Private Wealth 6': 0,
+            'Private Wealth 7': 0,
+            'Private Wealth 8': 0,
+            'Private Wealth 9': 0,
+            'Private Wealth 10': 0,
+            'Private Wealth 11': 0
+        };
+
+        rows.forEach(row => {
+            const num = +row[7].replace(/,/g, '');
+            if (data[row[2]]) {
+                data[row[2]] += +num;
+            } else {
+                data[row[2]] = +num;
+            }
+        });
+
+        document.querySelector('#sheetscon').innerHTML = '<table id="sheets-table"></table>';
+
+        const table = document.querySelector('#sheets-table');
+
+        const tr = document.createElement('tr');
+        const title = ['Team', 'Size'];
+        title.forEach(item => {
+            const th = document.createElement('th');
+            th.innerText = item;
+            tr.appendChild(th);
+        });
+
+        table.appendChild(tr);
+
+        for (const property in data) {
+            if (data[property] === 0) {
+                continue;
+            }
+
+            const tr = document.createElement('tr');
+
+            const td1 = document.createElement('td');
+            td1.innerText = property;
+            tr.appendChild(td1);
+
+            const td2 = document.createElement('td');
+            td2.innerText = data[property];
+            tr.appendChild(td2);
+
+            table.appendChild(tr);
+        }
+
+    };
+    req.send(null);
+</script>
