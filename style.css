@@ -1,0 +1,133 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #f3f7f9;
+    padding: 1%;
+}
+
+table,
+input,
+label,
+h1,
+h3,
+p {
+    font-family: 'Roboto', sans-serif;
+}
+
+div.info-box {
+    min-height: 50vh;
+    padding: 30px;
+    background: #FFF;
+    border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+input#name {
+    border: none;
+    font-size: 48px;
+    text-align: center;
+    border-bottom: 1px solid #e0e3e6;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+input#name::placeholder {
+    text-transform: capitalize;
+    color: #909596;
+}
+
+input#name:focus {
+    outline: none;
+}
+
+td.align-left {
+    text-align: left;
+}
+
+td.align-right {
+    text-align: right;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 10px;
+}
+
+table.dataTable thead {
+    background: #f9f9fb;
+}
+
+table.dataTable thead th {
+    border-bottom: 1px solid #e0e3e6;
+}
+
+table.dataTable thead th:nth-child(1) {
+    border-radius: 5px 0px 0px 0px;
+}
+
+table.dataTable thead th:nth-last-child(1) {
+    border-radius: 0px 5px 0px 0px;
+}
+
+table.dataTable tbody tr td {
+    border-bottom: 1px solid #f3f5f6;
+}
+
+table.dataTable tbody tr:hover {
+    background: #f9f9fb;
+}
+
+table.dataTable tfoot th {
+    border-top: 1px solid #e0e3e6;
+}
+
+table.dataTable tfoot th.align-right {
+    text-align: right;
+}
+
+i.bx-loader-alt {
+    font-size: 48px;
+    ;
+}
+
+#sheetscon .dataTables_wrapper .dataTables_filter {
+    display: none;
+}
+
+select#debenture-options {
+    border: none;
+    margin-bottom: 10px;
+    font-size: 20px;
+    background: transparent;
+    border-bottom: 1px solid;
+}
+
+select#debenture-options:focus {
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 992px) {
+    input#name {
+        font-size: 28px;
+    }
+
+    select#debenture-options {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    div.info-box {
+        width: 90%;
+        padding: 10px;
+    }
+}
