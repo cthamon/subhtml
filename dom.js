@@ -1,3 +1,8 @@
+Number.prototype.padLeft = function (base, chr) {
+    var len = (String(base || 10).length - String(this).length) + 1;
+    return len > 0 ? new Array(len).join(chr || '0') + this : this;
+};
+
 const isNumber = function isNumber(value) {
     return typeof value === 'number' && isFinite(value);
 };
@@ -66,7 +71,7 @@ $("select#debenture-options").on('change', function (e) {
                 const tbody2 = document.createElement('tbody');
                 const tfoot2 = document.createElement('tfoot');
                 const tr2 = document.createElement('tr');
-                const title2 = ['Team', 'Employee', 'Subs ', 'Allot', 'Waiting', 'Remark'];
+                const title2 = ['Date', 'Team', 'Employee', 'Subs ', 'Allot', 'Waiting', 'Remark'];
                 title2.forEach(item => {
                     const th = document.createElement('th');
                     th.innerText = item;
@@ -79,6 +84,7 @@ $("select#debenture-options").on('change', function (e) {
                 try {
                     rows.forEach(row => {
                         const tr = document.createElement('tr');
+                        const td0 = document.createElement('td');
                         const td1 = document.createElement('td');
                         const td2 = document.createElement('td');
                         const td3 = document.createElement('td');
@@ -98,6 +104,17 @@ $("select#debenture-options").on('change', function (e) {
                             data[row[2]]['wait'] = isNumber(wait) ? wait : 0;
                         }
 
+                        const d = new Date(row[0]);
+                        const dformat = [
+                            (d.getMonth() + 1).padLeft(),
+                            d.getDate().padLeft(),
+                            d.getFullYear()].join('/') + ' ' +
+                            [d.getHours().padLeft(),
+                            d.getMinutes().padLeft(),
+                            d.getSeconds().padLeft()
+                            ].join(':');
+
+                        td0.innerText = dformat;
                         td1.innerText = row[2];
                         td2.innerText = row[6];
                         td3.innerText = row[3];
@@ -112,6 +129,7 @@ $("select#debenture-options").on('change', function (e) {
                         td4.className = "align-right";
                         td5.className = "align-right";
 
+                        tr.appendChild(td0);
                         tr.appendChild(td1);
                         tr.appendChild(td2);
                         tr.appendChild(td3);
@@ -184,6 +202,8 @@ $("select#debenture-options").on('change', function (e) {
                 sheetstable.appendChild(tfoot);
 
                 $('#sheets-table tfoot').html('<tr><th>Total</th><th id="totalsub" class="align-right">0</th><th id="totalwait" class="align-right">0</th></tr>');
+
+                $.fn.dataTable.moment('dd/mm/YYYY HH:mm:ss');
 
                 $('#sheets-table').DataTable({
                     paging: false,
