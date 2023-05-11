@@ -104,9 +104,23 @@
             ;
         }
 
+        select#debenture-options {
+            border: none;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        select#debenture-options:focus {
+            outline: none;
+        }
+
         @media screen and (max-width: 992px) {
             input#name {
                 font-size: 28px;
+            }
+
+            select#debenture-options {
+                font-size: 14px;
             }
         }
     </style>
@@ -115,8 +129,13 @@
 <body>
     <div
         style="width: 50%; min-height: 50vh; margin: 0 auto; margin-top: 120px; padding: 60px; background: #FFF; border-radius: 20px; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-        <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
-            <input id="name" type="text" placeholder="Name...">
+        <div
+            style="width: 100%; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #e0e3e6;">
+            <!-- <input id="name" type="text" placeholder="Name..."> -->
+            <i id="small-loader" class='bx bx-loader-alt bx-spin' style="font-size: 18px; margin-bottom: 10px;"></i>
+            <select id="debenture-options" aria-label="noname">
+                <option value="0">Name...</option>
+            </select>
         </div>
         <div id="sheetscon">
         </div>
@@ -130,16 +149,47 @@
         return typeof value === 'number' && isFinite(value);
     };
 
-    let url = 'https://brook-olivine-cactus.glitch.me/may';
+    $(document).ready(function () {
+        const url = 'https://brook-olivine-cactus.glitch.me/ref';
 
-    $("input#name").on('keydown', function (e) {
+        $.ajax({
+            type: "get",
+            url,
+            beforeSend: function () {
+                $('#debenture-options').hide();
+            },
+            success: function (response) {
+                $('#small-loader').hide();
+                $('#debenture-options').show();
+
+                response.forEach(row => {
+                    row[1].split(",").forEach(deal => {
+                        $('#debenture-options').append('<option data-url=' + row[0] + ' value=' + deal + '>' + deal + '</option>');
+                    });
+                });
+                // $('#debenture-options').append()
+            }
+        });
+    });
+
+    // $("input#name").on('keydown', function (e) {
+    $("select#debenture-options").on('change', function (e) {
         e.stopImmediatePropagation();
+        const url = 'https://brook-olivine-cactus.glitch.me/conn';
 
-        if (e.key === "Enter") {
+        const optionSelected = $("option:selected", this);
+        const valueSelected = this.value;
+
+        // if (e.key === "Enter") {
+        if (valueSelected !== "0") {
             $.ajax({
                 type: "POST",
                 url,
-                data: { 'name': $("input#name").val() },
+                data: {
+                    // 'name': $("input#name").val() 
+                    'name': e.target.value,
+                    'url': optionSelected.attr('data-url')
+                },
                 beforeSend: function () {
                     $('#sheetscon').html("<div id='loading' style='width: 48px; margin: 120px auto 0 auto;'><i class='bx bx-loader-alt bx-spin'></i></div>");
                 },
@@ -167,14 +217,18 @@
                             }
                         });
                     } catch (err) {
-                        $('#sheetscon').html("<h1 style='text-align: center;'>Error</h1>");
+                        $('#sheetscon').html("<h1 style='text-align: center;'>No Data</h1>");
                     }
 
                     const table = document.createElement('table');
                     table.id = "sheets-table";
 
-                    $('#sheetscon').append('<p style="text-align: center;"">' + rows[0][10] + '</p>');
-                    $('#sheetscon').append('<p style="text-align: center;">' + rows[1][10] + ' ' + rows[1][11] + '</p>');
+                    if (rows[0][10]) {
+                        $('#sheetscon').append('<p style="text-align: center;"">' + rows[0][10] + '</p>');
+                    }
+                    if (rows[1][10] && rows[1][11]) {
+                        $('#sheetscon').append('<p style="text-align: center;">' + rows[1][10] + ' ' + rows[1][11] + '</p>');
+                    }
 
                     document.querySelector('#sheetscon').appendChild(table);
 
@@ -256,7 +310,9 @@
                         }
                     });
                 },
-
+                error: function (err) {
+                    $('#sheetscon').html("<h1 style='text-align: center;'>Error</h1>");
+                }
             });
         }
     });
